@@ -37,15 +37,6 @@ bool checkAllAnswersSaved(vector<string> answers) {
 	return true;
 }
 
-//int result(vector<string> answers, vector<string> correctAnswers) {
-//	int score = 0;
-//	for (size_t i = 0; i < answers.size(); i++)
-//	{
-//		if (answers[i] == correctAnswers[i]) score += 5;
-//	}
-//	return score;
-//}
-
 void fillVariants(vector<string>& variants) {
 	for (size_t i = 0; i < 5; i++)
 	{
@@ -68,6 +59,9 @@ void startQuiz(User* user) {
 	vector<string> correctVars;
 	fillVariants(variants);
 
+	unsigned seed = std::chrono::system_clock::now().time_since_epoch().count();
+	std::default_random_engine e(seed);
+
 	ifstream quizFile(quizName);
 	if (quizFile.is_open()) {
 		while (getline(quizFile, question, '?'))
@@ -78,12 +72,12 @@ void startQuiz(User* user) {
 				answers.push_back(answer);
 			}
 			getline(quizFile, correct);
-			random_shuffle(answers.begin(), answers.end());
+			shuffle(answers.begin(), answers.end(), e);
 			questions.push_back({ question,{correct, answers} });
 		}
 		quizFile.close();
 	}
-	random_shuffle(questions.begin(), questions.end());
+	shuffle(questions.begin(), questions.end(), e);
 
 	int i = 0;
 	int k = 0;
@@ -116,7 +110,8 @@ void startQuiz(User* user) {
 		else if (choice == "save") {
 			saveVar.push_back(variants[k]);//variants[i]??
 			//correctVars.push_back(string(correctVariant, 1));
-			if (saveVar.back() == string(correctVariant, 1) || saveVar.back() == string(correctVariant += 31, 1)) {
+			string corVar = {correctVariant};
+			if (saveVar.back() == corVar) {
 				score += 5;
 			}
 			questions[i].swap(questions.back());
@@ -129,6 +124,10 @@ void startQuiz(User* user) {
 			k++;
 		}
 		else if (choice == "a" || choice == "b" || choice == "c" || choice == "d" || choice == "A" || choice == "B" || choice == "C" || choice == "D") {
+			choice == "a" ? choice = "A" : choice;
+			choice == "b" ? choice = "B" : choice;
+			choice == "c" ? choice = "C" : choice;
+			choice == "d" ? choice = "D" : choice;
 			variants[k] = choice;;//push backde bir suala cavab verilibse ikinci defe verilende problem
 		}
 

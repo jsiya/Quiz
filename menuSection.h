@@ -1,20 +1,7 @@
 #pragma once
 
 void showScore(User* user) {
-	string username, score;
-	ifstream file("LeaderBoard.txt");
-	cout << "________Your Score________" << endl;
-	if (file.is_open()) {
-		while (getline(file, username, ' ')) {
-
-			getline(file, score);
-			if (user->getUsername() == username) {
-				user->setScore(stoi(score));
-				cout << username << " " << score << endl;
-			}
-		}
-		file.close();
-	}
+	cout << user->getUsername() << user->getScore() << endl;
 }
 
 void createQuiz() {

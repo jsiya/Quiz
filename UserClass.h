@@ -35,6 +35,7 @@ public:
     string getPassword() const{
         return *__password;
     }
+    virtual int getScore() = 0;
     virtual ~User() {
         delete __username;
         delete __password;
@@ -45,6 +46,7 @@ size_t User::__static_id = 0;
 class Admin : public User {
 public:
     Admin(string username, string password) : User(username, password) {}
+    int getScore() { return 0; }
 };
 
 class Player : public User {
