@@ -2,15 +2,14 @@
 
 void addUserScore(User* user) {
 	vector<pair<string, int>> players;
-	string username;
-	int score;
+	string username, score;
 	ifstream file("LeaderBoard.txt");
 	if (file.is_open()) {
 		while (getline(file, username, ' '))
 		{
-			file >> score;
+			getline(file, score);
+			players.push_back({ username, stoi(score) });
 		}
-		players.push_back({ username, score });
 		file.close();
 	}
 	for (auto& i : players)
