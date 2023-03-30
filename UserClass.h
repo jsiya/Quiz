@@ -12,7 +12,9 @@ public:
         setPassword(password);
     }
     void setUsername(string username) {
-        if (username.length() < 8) throw exception("username must be more than 8 character");
+        for (auto& i : username){
+            if ((i < 65 || i > 122) || (i > 90 &&  i < 97)) throw exception("username cannot contain any other characters");
+        }
         if (__username != nullptr) {
             delete __username;
             __username = nullptr;
@@ -68,4 +70,3 @@ public:
         delete _score;
     }
 };
-

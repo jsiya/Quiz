@@ -5,23 +5,18 @@ void addUserScore(User* user) {
 	string username, score;
 	ifstream file("LeaderBoard.txt");
 	if (file.is_open()) {
-		while (getline(file, username, ' '))
-		{
+		while (getline(file, username, ' ')){
 			getline(file, score);
 			players.push_back({ username, stoi(score) });
 		}
 		file.close();
 	}
-	for (auto& i : players)
-	{
-		if (i.first == user->getUsername()) {
-			i.second = i.second + user->getScore();
-		}
+	for (auto& i : players){
+		if (i.first == user->getUsername()) i.second = i.second + user->getScore();
 	}
 	ofstream file_("LeaderBoard.txt");
 	if (file_.is_open()) {
-		for (auto& i : players)
-		{
+		for (auto& i : players){
 			file_ << i.first << " " << i.second << "\n";
 		}
 		file_.close();
@@ -44,15 +39,13 @@ void leaderBoard(User* user = nullptr) {
 			file.close();
 		}
 	}
-	else {//nizamliyir hele tam deyil gelen user yoxlanib elave edilmelidir
-
+	else {//nizamliyir 
 		addUserScore(user);
 
 		vector<pair<string, string>> players;
 		ifstream file("LeaderBoard.txt");
 		if (file.is_open()) {
-			while (getline(file, username, ' '))
-			{
+			while (getline(file, username, ' ')){
 				getline(file, score);
 				players.push_back({ username, score });
 			}
@@ -66,8 +59,7 @@ void leaderBoard(User* user = nullptr) {
 
 		ofstream file_("LeaderBoard.txt");
 		if (file_.is_open()) {
-			for (auto& i : players)
-			{
+			for (auto& i : players){
 				file_ << i.first << " " << i.second << "\n";
 			}
 			file_.close();

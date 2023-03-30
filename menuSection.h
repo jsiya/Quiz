@@ -1,7 +1,19 @@
 #pragma once
 
 void showScore(User* user) {
-	cout << user->getUsername() << user->getScore() << endl;
+	ifstream file("LeaderBoard.txt");
+	string username, score;
+	vector <pair<string, string>> players;
+	if (file.is_open()) {
+		while (getline(file, username, ' ')) {
+			getline(file, score);
+			players.push_back({ username, score });
+		}
+		file.close();
+	}
+	for (auto& i : players){
+		if (i.first == user->getUsername()) cout << "Your Score is: " << i.second << endl;
+	}
 }
 
 void createQuiz() {
@@ -30,10 +42,10 @@ void createQuiz() {
 	}
 }
 
+
 void menu() {
 	bool choice;
-	while (true)
-	{
+	while (true){
 		try {
 			choice = logOrSignChoice();
 		}
@@ -45,14 +57,11 @@ void menu() {
 	}
 	char choice_;
 	if (!choice) {
-		while (true)
-		{
-			try
-			{
+		while (true){
+			try{
 				signIn();
 			}
-			catch (const std::exception& ex)
-			{
+			catch (const std::exception& ex){
 				cout << endl << ex.what() << endl;
 				continue;
 			}
@@ -62,49 +71,31 @@ void menu() {
 
 	User* user = logIn();
 	if (checkAdminOrPlayer(user->getUsername(), user->getPassword())) {
-		while (true)
-		{
+		while (true){
 			cin.ignore();
 			cout << "1. Start Quiz" << endl;
 			cout << "2. Leader Board" << endl;
 			cout << "3. Create Quiz" << endl;
 			cout << "4. Exit" << endl;
 			cin >> choice_;
-			if (choice_ == '1') {
-				startQuiz(user);
-			}
-			else if (choice_ == '2') {
-				leaderBoard();
-			}
-			else if (choice_ == '3') {
-				createQuiz();
-			}
-			else if (choice_ == '4') {
-				exit(0);
-			}
+			if (choice_ == '1') startQuiz(user);
+			else if (choice_ == '2') leaderBoard();
+			else if (choice_ == '3') createQuiz();
+			else if (choice_ == '4') exit(0);
 		}
 	}
 	else {
-		while (true)
-		{
+		while (true){
 			cin.ignore();
 			cout << "1. Start Quiz" << endl;
 			cout << "2. Leader Board" << endl;
 			cout << "3. Show my score" << endl;
 			cout << "4. Exit" << endl;
 			cin >> choice_;
-			if (choice_ == '1') {
-				startQuiz(user);
-			}
-			else if (choice_ == '2') {
-				leaderBoard();
-			}
-			else if (choice_ == '3') {
-
-			}
-			else if (choice_ == '4') {
-				exit(0);
-			}
+			if (choice_ == '1') startQuiz(user);
+			else if (choice_ == '2') leaderBoard();
+			else if (choice_ == '3') showScore(user);
+			else if (choice_ == '4') exit(0);
 		}
 	}
 	delete user;

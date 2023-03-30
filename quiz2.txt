@@ -1,0 +1,5 @@
+3x7? 12, 13, 23, 21, 21
+Fiqurun terefleri uzunlugu cemi? Perimetr, Sahe, Radius, Veter, Perimetr
+Ucbucagin oturacagina cekilmis en qisa mesafe? Median, Hundurluk, Veter, Perimetr, Hundurluk
+Ucbucagin daxili bucaqlarinin cemi? 120, 360, 210, 180, 180
+134+76? 200, 300, 210, 310, 210

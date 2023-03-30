@@ -20,17 +20,6 @@ using namespace std;
 
 int main()
 {
-	/*ofstream file("LeaderBoard.txt");
-	if (file.is_open()) {
-	    file.close();
-	}*/
-
-
-	/*
-		qalanlar:
-		userin oynedigi quizleri saxlamaq
-		
-	*/
+	//admin kimi signUp yoxdur, yalniz signIn mumkundur
 	menu();
-
 }

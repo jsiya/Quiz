@@ -1,8 +1,8 @@
 ﻿  Quiz.cpp
-C:\Users\Siya\Desktop\Step\Quiz\quizSection.h(62,16): warning C4244: 'initializing': conversion from '_Rep' to 'unsigned int', possible loss of data
+C:\Users\Siya\Desktop\Step\Quiz\quizSection.h(84,16): warning C4244: 'initializing': conversion from '_Rep' to 'unsigned int', possible loss of data
           with
           [
               _Rep=std::chrono::system_clock::rep
           ]
-C:\Users\Siya\Desktop\Step\Quiz\logInSection.h(89): warning C4715: 'logIn': not all control paths return a value
+C:\Users\Siya\Desktop\Step\Quiz\logInSection.h(73): warning C4715: 'logIn': not all control paths return a value
   Quiz.vcxproj -> C:\Users\Siya\Desktop\Step\Quiz\x64\Debug\Quiz.exe
