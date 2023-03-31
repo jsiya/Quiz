@@ -1,2 +1,2 @@
-siyajabbarova: quiz1.txt, quiz2.txt,
-asmarasmar: quiz2.txt,
+siyajabbarova: quiz2.txt,#,
+asmarasmar: quiz2.txt,#,

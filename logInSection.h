@@ -14,7 +14,7 @@ map<string, string> fromFileToMap(string filename) { //txt file-dan username ve 
 	return users;
 }
 
-bool checkAdminOrPlayer(string username, string password) { //login zamani userin admin ve ya player olmasi
+bool checkAdminOrPlayer(string username, string password) { //login zamani userin admin ve ya player olmasinin yoxlanmasi
 	map<string, string> admins;
 	map<string, string> players;
 	admins = fromFileToMap("admins.txt");
@@ -47,8 +47,8 @@ User* logIn() {
 		cin >> username;
 		cout << "Enter Password: ";
 		cin >> password;
-		try{
-			userCheck = checkAdminOrPlayer(username, password);
+		try{// loginin yoxlanmasi
+			userCheck = checkAdminOrPlayer(username, password); 
 		}
 		catch (const std::exception& ex){
 			cout << ex.what() << endl;
@@ -72,7 +72,7 @@ User* logIn() {
 	}
 }
 
-bool signIn() { //yoxlama olsun
+bool signIn() { 
 	string username, password;
 	Player p;
 	while (true){
@@ -90,7 +90,8 @@ bool signIn() { //yoxlama olsun
 		}
 		break;
 	}
-	ifstream file_("players.txt");
+
+	ifstream file_("players.txt");	//yeni username-in evvelceden islendiyini yoxla!
 	if (file_.is_open()) {
 		string playerUsername;
 		while (getline(file_, playerUsername, ' ')){
@@ -99,14 +100,16 @@ bool signIn() { //yoxlama olsun
 		}
 	}
 
-	ofstream file("players.txt", ios::app);
+	ofstream file("players.txt", ios::app); 
 	if (file.is_open()) {
 		file << p.getUsername() << " " << p.getPassword() << "\n";
 		file.close();
 		return true;
 	}
 
-	ofstream file__("LeaderBoard.txt", ios::app);
+	//leaderboarda 0 scorela elave
+
+	ofstream file__("LeaderBoard.txt", ios::app); 
 	if (file__.is_open()) {
 		file__ << p.getUsername() << " " << 0 << "\n";
 		file__.close();

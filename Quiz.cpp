@@ -8,6 +8,7 @@
 #include<iterator>
 #include<random>
 #include<chrono>
+#include <thread>
 
 using namespace std;
 
@@ -17,9 +18,8 @@ using namespace std;
 #include"quizSection.h"
 #include"menuSection.h"
 
-
 int main()
 {
-	//admin kimi signUp yoxdur, yalniz signIn mumkundur
+	//admin kimi signUp yoxdur, yalniz logIn mumkundur!
 	menu();
 }

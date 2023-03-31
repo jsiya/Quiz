@@ -3,7 +3,7 @@
 void showScore(User* user) {
 	ifstream file("LeaderBoard.txt");
 	string username, score;
-	vector <pair<string, string>> players;
+	vector <pair<string, string>> players;//vectorda - username, score
 	if (file.is_open()) {
 		while (getline(file, username, ' ')) {
 			getline(file, score);
@@ -70,7 +70,7 @@ void menu() {
 	}
 
 	User* user = logIn();
-	if (checkAdminOrPlayer(user->getUsername(), user->getPassword())) {
+	if (checkAdminOrPlayer(user->getUsername(), user->getPassword())) {//admindirse
 		while (true){
 			cin.ignore();
 			cout << "1. Start Quiz" << endl;
@@ -84,7 +84,7 @@ void menu() {
 			else if (choice_ == '4') exit(0);
 		}
 	}
-	else {
+	else {//userdirse
 		while (true){
 			cin.ignore();
 			cout << "1. Start Quiz" << endl;
