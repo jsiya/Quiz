@@ -1,0 +1,5 @@
+1 byte nece bit-dir?4, 5, 6, 8, 8
+1metr nece sm-dir?10, 50, 100, 1000, 100
+1kq nece qramdir?500, 1000, 100, 50, 1000
+1 saat nece deqiqedir?24, 60, 1440, 100, 60
+1 litr nece m3 -dir?10, 100, 1000, 10000, 1000

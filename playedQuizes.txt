@@ -1,2 +1,4 @@
+asmar:quiz1.txt,quiz4.txt,adminsQuiz.txt,,#
+hesen:,#
+rustam:quiz3.txt,,#
 siyajabbarova:quiz1.txt,quiz2.txt,,#
-asmar:,#

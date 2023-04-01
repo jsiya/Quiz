@@ -1,2 +1,4 @@
+asmar 65
 siyajabbarova 50
-asmar 0
+rustam 25
+hesen 0

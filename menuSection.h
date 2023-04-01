@@ -108,7 +108,6 @@ void menu() {
 	User* user = logIn();
 	if (checkAdminOrPlayer(user->getUsername(), user->getPassword())) {//admindirse
 		while (true) {
-			this_thread::sleep_for(chrono::milliseconds(2000));
 			system("cls");
 			cin.ignore();
 			cout << "1. Start Quiz" << endl;
@@ -117,14 +116,17 @@ void menu() {
 			cout << "4. Exit" << endl;
 			cin >> choice_;
 			if (choice_ == '1') startQuiz(user);
-			else if (choice_ == '2') leaderBoard();
+			else if (choice_ == '2') { 
+				system("cls");
+				leaderBoard(); 			
+				this_thread::sleep_for(chrono::milliseconds(4000));
+			}
 			else if (choice_ == '3') createQuiz();
 			else if (choice_ == '4') exit(0);
 		}
 	}
 	else {//userdirse
 		while (true) {
-			this_thread::sleep_for(chrono::milliseconds(2000));
 			system("cls");
 			cin.ignore();
 			cout << "1. Start Quiz" << endl;
@@ -133,8 +135,16 @@ void menu() {
 			cout << "4. Exit" << endl;
 			cin >> choice_;
 			if (choice_ == '1') startQuiz(user);
-			else if (choice_ == '2') leaderBoard();
-			else if (choice_ == '3') showScore(user);
+			else if (choice_ == '2') { 
+				system("cls");
+				leaderBoard(); 
+				this_thread::sleep_for(chrono::milliseconds(4000));
+			}
+			else if (choice_ == '3') { 
+				system("cls");
+				showScore(user);
+				this_thread::sleep_for(chrono::milliseconds(4000));
+			}
 			else if (choice_ == '4') exit(0);
 		}
 	}

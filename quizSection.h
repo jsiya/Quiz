@@ -17,6 +17,7 @@ bool quizCheck(User* user, string quiz_name) { // user-in quizin evvelce oynayib
 }
 
 string quizChoice(User* user) { //quiz secmek
+	system("cls");
 	string choice, quizName;
 	{
 		ifstream quizes("quizNames.txt");
@@ -46,8 +47,9 @@ string quizChoice(User* user) { //quiz secmek
 			while (getline(quizes, quizName)){
 				if (choice == quizName) return choice;
 			}
+			quizes.close();
+			cout << "Invalid Quiz Name!" << endl;
 		}
-		else cout << "Invalid Quiz Name!" << endl;
 	}
 }
 
@@ -86,13 +88,6 @@ void addQuizToUser(User* user, string quiz) {//oynanan quizin userin oynadigi qu
 	}
 }
 
-bool checkAllAnswersSaved(vector<string> answers) {//butun cavablarin save olunmasinin yoxlanmasi
-	for (auto& i : answers) {
-		if (i == " ") return false;
-	}
-	return true;
-}
-
 void fillVariants(vector<string>& variants) {
 	for (size_t i = 0; i < 5; i++) {
 		variants.push_back(" ");
@@ -110,7 +105,6 @@ void startQuiz(User* user) {
 	char variant;
 	char correctVariant;
 	vector<string>variants;
-	vector<string>saveVar;
 	vector<string> correctVars;
 	fillVariants(variants);
 
@@ -133,8 +127,7 @@ void startQuiz(User* user) {
 	}
 	shuffle(questions.begin(), questions.end(), e);
 
-	int i = 0;//suallarin indexi
-	int k = 0;//variantlarin indexi
+	int i = 0;
 	int score = 0;
 	while (true) {
 		system("cls");
@@ -142,7 +135,7 @@ void startQuiz(User* user) {
 		cout << questions[i].first << "? " << endl;
 		for (auto& j : questions[i].second.second) {
 			if (j == questions[i].second.first) correctVariant = variant; //cavab duzgun cavabla eyni olduqda duzgun varianti saxliyir
-			cout << variant++ << "." << j << " ";
+			cout << variant++ << "." << j << "  ";
 		}
 		cout << endl;
 		if (i == 0) cout << "                       save    " << "next" << endl;	//ilk suala gore
@@ -150,36 +143,29 @@ void startQuiz(User* user) {
 		else cout << "prev" << "                  save    " << "next" << endl;
 		cout << "user input: ";
 		cin >> choice;
-		if (choice == "prev" && i != 0) {
-			i--;
-			k--;
-		}
-		else if (choice == "save" && variants[k] !=  " ") {//save olunmasi ucun evvelceden variant secilmis olmasi
-			saveVar.push_back(variants[k]);
+		if (choice == "prev" && i != 0) i--;
+		else if (choice == "save" && variants[i] !=  " ") {//save olunmasi ucun evvelceden variant secilmis olmasi
 			string corVar = { correctVariant };//correctVariant char oldugu ucun
-			if (saveVar.back() == corVar) score += 5;
-			questions[i].swap(questions.back());
-			questions.pop_back();//save olandan sonra sual silinir
-			if (i != 0) i--;
+			if (variants[i] == corVar) score += 5;
+			questions.erase(questions.begin() + i);
+			variants.erase(variants.begin() + i);
+			if (i == questions.size()) i--;//sonuncu sualda i=1 qaldigina gore indexi i = 0 olmalidi
 		}
-		else if (choice == "save" && variants[k] == " ") {//secilmemis save olsa
+		else if (choice == "save" && variants[i] == " ") {//secilmemis save olsa
 			system("cls");
 			cout << "Choose variant!" << endl;
 			this_thread::sleep_for(chrono::milliseconds(2000));
 		}
-		else if (choice == "next" && i < questions.size()) {
-			i++;
-			k++;
-		}
+		else if (choice == "next" && i < questions.size()) i++;
 		else if (choice == "a" || choice == "b" || choice == "c" || choice == "d" || choice == "A" || choice == "B" || choice == "C" || choice == "D") {
 			choice == "a" ? choice = "A" : choice;
 			choice == "b" ? choice = "B" : choice;
 			choice == "c" ? choice = "C" : choice;
 			choice == "d" ? choice = "D" : choice;
-			variants[k] = choice;;
+			variants[i] = choice;
 		}
 
-		if (saveVar.size() == 5) { //eger butun suallarin cavabi save olunubsa
+		if (questions.size() == 0) {
 			if (!checkAdminOrPlayer(user->getUsername(), user->getPassword())) {//ve playerdirse score artsin, adminde score yoxdur
 				user->setScore(score);
 				leaderBoard(user);
