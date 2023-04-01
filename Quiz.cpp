@@ -2,10 +2,8 @@
 #include<string>
 #include<vector>
 #include <map>
-#include<list>
 #include<fstream>
 #include<algorithm>
-#include<iterator>
 #include<random>
 #include<chrono>
 #include <thread>
@@ -25,7 +23,6 @@ int main()
 	// admin-in score-u yoxdur, quizleri oynaya biler, leaderBoarda baxa biler, quiz yarada biler
 	// quiz yaratdiq quiz sayi sorusmuram standart 5 sual olmalidir quizde, evvelceden eyni adda quiz varsa yeni ad teleb edir
 	// player kimi daxil olduqda, evvel oynadigi quizi oynaya bilmez, her duzgun cavaba gore score-a 5 elave olunur, score-na baxa biler, leaderBoarda baxa biler
-	// 
 	// 
 	// QEYD:
 	// quizlere sual tapmamisam ona gore  filedaki suallar eynidi

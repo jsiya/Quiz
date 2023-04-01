@@ -1,10 +1,10 @@
 #pragma once
-map<string, string> fromFileToMap(string filename) { //txt file-dan username ve passwordu map kimi return edir
+map<string, string> fromFileToMap(string filename) {    //txt file-dan username ve passwordu map kimi return edir
 	map<string, string> users;
 	string username, password;
 	ifstream file(filename);
 	if (file.is_open()) {
-		while (getline(file, username, ' ')){
+		while (getline(file, username, ' ')) {
 			getline(file, password);
 			users.insert({ username, password });
 		}
@@ -13,15 +13,15 @@ map<string, string> fromFileToMap(string filename) { //txt file-dan username ve 
 	return users;
 }
 
-bool checkAdminOrPlayer(string username, string password) { //login zamani userin admin ve ya player olmasinin yoxlanmasi
+bool checkAdminOrPlayer(string username, string password) {    //login zamani userin admin ve ya player olmasinin yoxlanmasi
 	map<string, string> admins;
 	map<string, string> players;
 	admins = fromFileToMap("admins.txt");
 	players = fromFileToMap("players.txt");
-	for (auto& i : admins){
+	for (auto& i : admins) {
 		if (username == i.first && password == i.second) return true;
 	}
-	for (auto& i : players){
+	for (auto& i : players) {
 		if (username == i.first && password == i.second) return false;
 	}
 	throw exception("Invalid User!");
@@ -41,44 +41,44 @@ User* logIn() {
 	string username;
 	string password;
 	bool userCheck;
-	while (true){
+	while (true) {
 		system("cls");
 		cout << "Enter Username: ";
 		cin >> username;
 		cout << "Enter Password: ";
 		cin >> password;
-		try{// loginin yoxlanmasi
-			userCheck = checkAdminOrPlayer(username, password); 
+		try {    // loginin yoxlanmasi
+			userCheck = checkAdminOrPlayer(username, password);
 		}
-		catch (const std::exception& ex){
+		catch (const std::exception& ex) {
 			cout << ex.what() << endl;
 			this_thread::sleep_for(chrono::milliseconds(2000));
 			continue;
 		}
 		break;
 	}
-	if (userCheck) {//eger admindirse
+	if (userCheck) {    //eger admindirse
 		map<string, string> admins;
 		admins = fromFileToMap("admins.txt");
-		for (auto& i : admins){
+		for (auto& i : admins) {
 			if (username == i.first && password == i.second) return new Admin(i.first, i.second);
 		}
 	}
-	else {//playerdise
+	else {    //playerdise
 		map<string, string> player;
 		player = fromFileToMap("players.txt");
-		for (auto& i : player){
+		for (auto& i : player) {
 			if (username == i.first && password == i.second) return new Player(i.first, i.second);
 		}
 	}
 }
 
-bool signIn() { 
+bool signIn() {
 	string username, password;
 	Player p;
-	while (true){
+	while (true) {
 		system("cls");
-		try{
+		try {
 			cout << "Enter New Username: ";
 			cin >> username;
 			cout << "Enter Password: ";
@@ -96,12 +96,12 @@ bool signIn() {
 	ifstream file_("players.txt");	//yeni username-in evvelceden islendiyini yoxla!
 	if (file_.is_open()) {
 		string playerUsername;
-		while (getline(file_, playerUsername, ' ')){
+		while (getline(file_, playerUsername, ' ')) {
 			if (username == playerUsername) throw exception("This username already used!");
 			getline(file_, playerUsername);
 		}
 	}
-	ofstream file("players.txt", ios::app); 
+	ofstream file("players.txt", ios::app);
 	if (file.is_open()) {
 		file << p.getUsername() << " " << p.getPassword() << "\n";
 		file.close();

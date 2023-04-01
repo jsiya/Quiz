@@ -1,5 +1,5 @@
 #pragma once
-bool quizCheck(User* user, string quiz_name) { // user-in quizin evvelce oynayib-oynamamasinin yoxlayir
+bool quizCheck(User* user, string quiz_name) {    // user-in quizin evvelce oynayib-oynamamasinin yoxlayir
 	pair<string, string> quiz;
 	quiz.first = user->getUsername();
 	quiz.second = quiz_name;
@@ -7,7 +7,7 @@ bool quizCheck(User* user, string quiz_name) { // user-in quizin evvelce oynayib
 	ifstream file("playedQuizes.txt");
 	if (file.is_open()) {
 		while (getline(file, username, ':')) {
-			while (getline(file, quizName, ',') && quizName !="#") {
+			while (getline(file, quizName, ',') && quizName != "#") {
 				if (quiz.first == username && quiz.second == quizName) return false;
 			}
 		}
@@ -16,19 +16,19 @@ bool quizCheck(User* user, string quiz_name) { // user-in quizin evvelce oynayib
 	return true;
 }
 
-string quizChoice(User* user) { //quiz secmek
+string quizChoice(User* user) {    //quiz secmek
 	system("cls");
 	string choice, quizName;
 	{
 		ifstream quizes("quizNames.txt");
 		if (quizes.is_open()) {
-			while (getline(quizes, quizName, '.')){
+			while (getline(quizes, quizName, '.')) {
 				cout << quizName << endl;
 				getline(quizes, quizName);
 			}
 		}
 	}
-	while (true){
+	while (true) {
 		while (true) {
 			cout << "Choose quiz: " << endl;
 			cin >> choice;
@@ -44,7 +44,7 @@ string quizChoice(User* user) { //quiz secmek
 		}
 		ifstream quizes("quizNames.txt");
 		if (quizes.is_open()) {
-			while (getline(quizes, quizName)){
+			while (getline(quizes, quizName)) {
 				if (choice == quizName) return choice;
 			}
 			quizes.close();
@@ -53,30 +53,30 @@ string quizChoice(User* user) { //quiz secmek
 	}
 }
 
-void addQuizToUser(User* user, string quiz) {//oynanan quizin userin oynadigi quizlere elave edilmesi
+void addQuizToUser(User* user, string quiz) {    //oynanan quizin userin oynadigi quizlere elave edilmesi
 	//quiz bitdikden sonra elave edir
 	vector<string> quizes;
-	map<string, vector<string>> playedQuizes; // map<username, quizler>
+	map<string, vector<string>> playedQuizes;    // map<username, quizler>
 	string username, quizName;
 	ifstream file("playedQuizes.txt");
 	if (file.is_open()) {
 		while (getline(file, username, ':')) {
 			quizes.clear();
-			while (getline(file, quizName, ',')  && quizName != "") {
+			while (getline(file, quizName, ',') && quizName != "") {
 				quizes.push_back(quizName);
 			}
-			getline(file, quizName);//bu sondaki \n kecsin deye
+			getline(file, quizName);           //bu sondaki \n kecsin deye
 			if (user->getUsername() == username) quizes.push_back(quiz);
 			playedQuizes.insert({ username, quizes });
 		}
 		file.close();
 	}
-	try{
+	try {
 		ofstream file_("playedQuizes.txt");
 		if (file_.is_open()) {
-			for (auto& i : playedQuizes){
+			for (auto& i : playedQuizes) {
 				file_ << i.first << ":";
-				for (auto& j : i.second){
+				for (auto& j : i.second) {
 					file_ << j << ",";
 				}file_ << ",#\n";
 			}
@@ -95,12 +95,12 @@ void fillVariants(vector<string>& variants) {
 }
 
 void startQuiz(User* user) {
-	user->setScore(0); //oyuna 0 scorela basla
+	user->setScore(0);     //oyuna 0 scorela basla
 
 	string choice, quizName;
 	string question, answer, correct;
 	vector<string> answers;
-	vector<pair<string, pair<string, vector<string>>>> questions;// vector<pair<sual, pair<duzgun_cavab,cavablar>>>
+	vector<pair<string, pair<string, vector<string>>>> questions;    // vector<pair<sual, pair<duzgun_cavab,cavablar>>>
 	quizName = quizChoice(user);
 	char variant;
 	char correctVariant;
@@ -108,7 +108,7 @@ void startQuiz(User* user) {
 	vector<string> correctVars;
 	fillVariants(variants);
 
-	unsigned seed = std::chrono::system_clock::now().time_since_epoch().count();//suallari shuffle etmek ucun
+	unsigned seed = std::chrono::system_clock::now().time_since_epoch().count();    //suallari shuffle etmek ucun
 	std::default_random_engine e(seed);
 
 	ifstream quizFile(quizName);
@@ -134,24 +134,24 @@ void startQuiz(User* user) {
 		variant = 65;
 		cout << questions[i].first << "? " << endl;
 		for (auto& j : questions[i].second.second) {
-			if (j == questions[i].second.first) correctVariant = variant; //cavab duzgun cavabla eyni olduqda duzgun varianti saxliyir
+			if (j == questions[i].second.first) correctVariant = variant;      //cavab duzgun cavabla eyni olduqda duzgun varianti saxliyir
 			cout << variant++ << "." << j << "  ";
 		}
 		cout << endl;
 		if (i == 0) cout << "                       save    " << "next" << endl;	//ilk suala gore
-		else if(i == questions.size() - 1) cout << "prev" << "                  save" << endl;	//son suala gore
+		else if (i == questions.size() - 1) cout << "prev" << "                  save" << endl;   	//son suala gore
 		else cout << "prev" << "                  save    " << "next" << endl;
 		cout << "user input: ";
 		cin >> choice;
 		if (choice == "prev" && i != 0) i--;
-		else if (choice == "save" && variants[i] !=  " ") {      //save olunmasi ucun evvelceden variant secilmis olmasi
-			string corVar = { correctVariant };       //correctVariant char oldugu ucun
+		else if (choice == "save" && variants[i] != " ") {      //save olunmasi ucun evvelceden variant secilmis olmasi
+			string corVar = { correctVariant };          //correctVariant char oldugu ucun
 			if (variants[i] == corVar) score += 5;
-			questions.erase(questions.begin() + i);    //save olunan silinir
+			questions.erase(questions.begin() + i);     //save olunan silinir
 			variants.erase(variants.begin() + i);
-			if (i == questions.size()) i--;      //sonuncu sualda i=1 qaldigina gore indexi i = 0 olmalidi
+			if (i == questions.size()) i--;          //sonuncu sualda i=1 qaldigina gore indexi i = 0 olmalidi
 		}
-		else if (choice == "save" && variants[i] == " ") {//secilmemis save olsa
+		else if (choice == "save" && variants[i] == " ") {      //secilmemis save olsa
 			system("cls");
 			cout << "Choose variant!" << endl;
 			this_thread::sleep_for(chrono::milliseconds(2000));

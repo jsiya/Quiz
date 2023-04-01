@@ -2,7 +2,7 @@
 void showScore(User* user) {
 	ifstream file("LeaderBoard.txt");
 	string username, score;
-	vector <pair<string, string>> players;//vectorda - username, score
+	vector <pair<string, string>> players;    //vectorda - username, score
 	if (file.is_open()) {
 		while (getline(file, username, ' ')) {
 			getline(file, score);
@@ -28,18 +28,18 @@ void checkQuizName(string quizname) {
 void createQuiz() {
 	string filename, question, answer, correctAnswer;
 	vector<string> answers;
-	while (true){
+	while (true) {
 		system("cls");
 		cout << "Enter quiz name" << endl;
 		cin >> filename;
-		try{//quiz yaradanda adinda simvol olunmamalidi
-			for (auto& i : filename){
+		try {    //quiz yaradanda adinda simvol olunmamalidi
+			for (auto& i : filename) {
 				if ((i < 65 || i > 122) || (i > 90 && i < 97)) throw exception("You cannot use other characters in quiz name!!!");
 			}
 			filename += ".txt";
-			checkQuizName(filename);//bu adda basqa quizin olub olmamasi
+			checkQuizName(filename);     //bu adda basqa quizin olub olmamasi
 		}
-		catch (const std::exception& ex){
+		catch (const std::exception& ex) {
 			system("cls");
 			cout << ex.what() << endl;
 			this_thread::sleep_for(chrono::milliseconds(2000));
@@ -47,15 +47,15 @@ void createQuiz() {
 		}
 		break;
 	}
-	for (size_t i = 0; i < 5; i++){
+	for (size_t i = 0; i < 5; i++) {
 		cout << "Add your " << i + 1 << ". question: " << endl;
 		getline(cin >> ws, question);
-		question.erase(remove(question.begin(), question.end(), '?'), question.end());//admin suala ? qoyubsa silsin 
+		question.erase(remove(question.begin(), question.end(), '?'), question.end());    //admin suala ? qoyubsa silsin 
 		cout << "Add four variant: " << endl;
-		for (size_t i = 0; i < 4; i++){
+		for (size_t i = 0; i < 4; i++) {
 			cout << i + 1 << ". ";
 			getline(cin >> ws, answer);
-			answer.erase(remove(answer.begin(), answer.end(), ','), answer.end());//cavabda , varsa silinsin
+			answer.erase(remove(answer.begin(), answer.end(), ','), answer.end());    //cavabda , varsa silinsin
 			answers.push_back(answer);
 		}
 		cout << "Correct answer: " << endl;
@@ -64,7 +64,7 @@ void createQuiz() {
 		ofstream file(filename, ios::app);
 		if (file.is_open()) {
 			file << question << "?";
-			for (auto& i : answers){
+			for (auto& i : answers) {
 				file << i << ", ";
 			}
 			file << correctAnswer << "\n";
@@ -106,7 +106,7 @@ void menu() {
 		}
 	}
 	User* user = logIn();
-	if (checkAdminOrPlayer(user->getUsername(), user->getPassword())) {//admindirse
+	if (checkAdminOrPlayer(user->getUsername(), user->getPassword())) {    //admindirse
 		while (true) {
 			system("cls");
 			cin.ignore();
@@ -116,16 +116,16 @@ void menu() {
 			cout << "4. Exit" << endl;
 			cin >> choice_;
 			if (choice_ == '1') startQuiz(user);
-			else if (choice_ == '2') { 
+			else if (choice_ == '2') {
 				system("cls");
-				leaderBoard(); 			
+				leaderBoard();
 				this_thread::sleep_for(chrono::milliseconds(4000));
 			}
 			else if (choice_ == '3') createQuiz();
 			else if (choice_ == '4') exit(0);
 		}
 	}
-	else {//userdirse
+	else {    //userdirse
 		while (true) {
 			system("cls");
 			cin.ignore();
@@ -135,12 +135,12 @@ void menu() {
 			cout << "4. Exit" << endl;
 			cin >> choice_;
 			if (choice_ == '1') startQuiz(user);
-			else if (choice_ == '2') { 
+			else if (choice_ == '2') {
 				system("cls");
-				leaderBoard(); 
+				leaderBoard();
 				this_thread::sleep_for(chrono::milliseconds(4000));
 			}
-			else if (choice_ == '3') { 
+			else if (choice_ == '3') {
 				system("cls");
 				showScore(user);
 				this_thread::sleep_for(chrono::milliseconds(4000));

@@ -1,28 +1,28 @@
 #pragma once
-void addUserScore(User* user) {// uygun useri tapib scoreu artirir yeniden leaderBoarda yazir
+void addUserScore(User* user) {      // uygun useri tapib scoreu artirir yeniden leaderBoarda yazir
 	vector<pair<string, int>> players;
 	string username, score;
 	ifstream file("LeaderBoard.txt");
 	if (file.is_open()) {
-		while (getline(file, username, ' ')){
+		while (getline(file, username, ' ')) {
 			getline(file, score);
 			players.push_back({ username, stoi(score) });
 		}
 		file.close();
 	}
-	for (auto& i : players){ 
-		if (i.first == user->getUsername()) i.second = i.second + user->getScore(); 
+	for (auto& i : players) {
+		if (i.first == user->getUsername()) i.second = i.second + user->getScore();
 	}
 	ofstream file_("LeaderBoard.txt");
 	if (file_.is_open()) {
-		for (auto& i : players){
+		for (auto& i : players) {
 			file_ << i.first << " " << i.second << "\n";
 		}
 		file_.close();
 	}
 }
 
-void leaderBoard(User* user = nullptr) { //user* gelmirse cout edir, geldikde son oyunun score-nu elave etdikden sonra sort edir
+void leaderBoard(User* user = nullptr) {     //user* gelmirse cout edir, geldikde son oyunun score-nu elave etdikden sonra sort edir
 	string username, score;
 	if (user == nullptr) {
 		ifstream file("LeaderBoard.txt");
@@ -39,11 +39,11 @@ void leaderBoard(User* user = nullptr) { //user* gelmirse cout edir, geldikde so
 		}
 	}
 	else {
-		addUserScore(user); //score - u artirib sonra yazir
+		addUserScore(user);    //score - u artirib sonra yazir
 		vector<pair<string, string>> players;
 		ifstream file("LeaderBoard.txt");
 		if (file.is_open()) {
-			while (getline(file, username, ' ')){
+			while (getline(file, username, ' ')) {
 				getline(file, score);
 				players.push_back({ username, score });
 			}
@@ -55,7 +55,7 @@ void leaderBoard(User* user = nullptr) { //user* gelmirse cout edir, geldikde so
 			});
 		ofstream file_("LeaderBoard.txt");
 		if (file_.is_open()) {
-			for (auto& i : players){
+			for (auto& i : players) {
 				file_ << i.first << " " << i.second << "\n";
 			}
 			file_.close();
