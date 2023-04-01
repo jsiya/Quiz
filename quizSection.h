@@ -1,9 +1,7 @@
 #pragma once
-
 bool quizCheck(User* user, string quiz_name) { // user-in quizin evvelce oynayib-oynamamasinin yoxlayir
 	pair<string, string> quiz;
 	quiz.first = user->getUsername();
-	quiz_name = ' ' + quiz_name;
 	quiz.second = quiz_name;
 	string username, quizName;
 	ifstream file("playedQuizes.txt");
@@ -53,9 +51,8 @@ string quizChoice(User* user) { //quiz secmek
 	}
 }
 
-void addQuizToUser(User* user, string quiz) {
-	//oynanan quizin userin oynadigi quizlere elave edilmesi
-	//quiz bitdikden sonra elave et
+void addQuizToUser(User* user, string quiz) {//oynanan quizin userin oynadigi quizlere elave edilmesi
+	//quiz bitdikden sonra elave edir
 	vector<string> quizes;
 	map<string, vector<string>> playedQuizes; // map<username, quizler>
 	string username, quizName;
@@ -72,16 +69,12 @@ void addQuizToUser(User* user, string quiz) {
 		}
 		file.close();
 	}
-	//elaveden sonra yeniden file a yazilma
-	
 	try{
 		ofstream file_("playedQuizes.txt");
 		if (file_.is_open()) {
-			for (auto& i : playedQuizes)
-			{
+			for (auto& i : playedQuizes){
 				file_ << i.first << ":";
-				for (auto& j : i.second)
-				{
+				for (auto& j : i.second){
 					file_ << j << ",";
 				}file_ << ",#\n";
 			}
@@ -113,7 +106,6 @@ void startQuiz(User* user) {
 	string question, answer, correct;
 	vector<string> answers;
 	vector<pair<string, pair<string, vector<string>>>> questions;// vector<pair<sual, pair<duzgun_cavab,cavablar>>>
-
 	quizName = quizChoice(user);
 	char variant;
 	char correctVariant;
@@ -149,7 +141,7 @@ void startQuiz(User* user) {
 		variant = 65;
 		cout << questions[i].first << "? " << endl;
 		for (auto& j : questions[i].second.second) {
-			if (j == questions[i].second.first) correctVariant = variant;
+			if (j == questions[i].second.first) correctVariant = variant; //cavab duzgun cavabla eyni olduqda duzgun varianti saxliyir
 			cout << variant++ << "." << j << " ";
 		}
 		cout << endl;
@@ -164,12 +156,11 @@ void startQuiz(User* user) {
 		}
 		else if (choice == "save" && variants[k] !=  " ") {//save olunmasi ucun evvelceden variant secilmis olmasi
 			saveVar.push_back(variants[k]);
-			string corVar = { correctVariant };
+			string corVar = { correctVariant };//correctVariant char oldugu ucun
 			if (saveVar.back() == corVar) score += 5;
 			questions[i].swap(questions.back());
-			questions.pop_back();
+			questions.pop_back();//save olandan sonra sual silinir
 			if (i != 0) i--;
-
 		}
 		else if (choice == "save" && variants[k] == " ") {//secilmemis save olsa
 			system("cls");

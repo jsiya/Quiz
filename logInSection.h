@@ -1,5 +1,4 @@
 #pragma once
-
 map<string, string> fromFileToMap(string filename) { //txt file-dan username ve passwordu map kimi return edir
 	map<string, string> users;
 	string username, password;
@@ -43,6 +42,7 @@ User* logIn() {
 	string password;
 	bool userCheck;
 	while (true){
+		system("cls");
 		cout << "Enter Username: ";
 		cin >> username;
 		cout << "Enter Password: ";
@@ -52,6 +52,7 @@ User* logIn() {
 		}
 		catch (const std::exception& ex){
 			cout << ex.what() << endl;
+			this_thread::sleep_for(chrono::milliseconds(2000));
 			continue;
 		}
 		break;
@@ -76,6 +77,7 @@ bool signIn() {
 	string username, password;
 	Player p;
 	while (true){
+		system("cls");
 		try{
 			cout << "Enter New Username: ";
 			cin >> username;
@@ -86,33 +88,36 @@ bool signIn() {
 		}
 		catch (const exception& ex) {
 			cout << endl << ex.what() << endl;
+			this_thread::sleep_for(chrono::milliseconds(2000));
 			continue;
 		}
 		break;
 	}
-
 	ifstream file_("players.txt");	//yeni username-in evvelceden islendiyini yoxla!
 	if (file_.is_open()) {
 		string playerUsername;
 		while (getline(file_, playerUsername, ' ')){
-			if (username == playerUsername) throw exception("this username already used!");
+			if (username == playerUsername) throw exception("This username already used!");
 			getline(file_, playerUsername);
 		}
 	}
-
 	ofstream file("players.txt", ios::app); 
 	if (file.is_open()) {
 		file << p.getUsername() << " " << p.getPassword() << "\n";
 		file.close();
+		ofstream file__("LeaderBoard.txt", ios::app); 	//leaderboarda 0 scorela elave
+		if (file__.is_open()) {
+			file__ << p.getUsername() << " " << 0 << "\n";
+			file__.close();
+		}
+		ofstream playedQuizes("playedQuizes.txt", ios::app);
+		{
+			if (playedQuizes.is_open()) {
+				playedQuizes << p.getUsername() << ":,#\n";
+				playedQuizes.close();
+			}
+		}
 		return true;
-	}
-
-	//leaderboarda 0 scorela elave
-
-	ofstream file__("LeaderBoard.txt", ios::app); 
-	if (file__.is_open()) {
-		file__ << p.getUsername() << " " << 0 << "\n";
-		file__.close();
 	}
 	return false;
 }

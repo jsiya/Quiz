@@ -1,5 +1,4 @@
 #pragma once
-
 void showScore(User* user) {
 	ifstream file("LeaderBoard.txt");
 	string username, score;
@@ -32,14 +31,13 @@ void createQuiz() {
 	while (true){
 		system("cls");
 		cout << "Enter quiz name" << endl;
-		cin >> filename;//quiz yaradanda adinda simvol olunmamasini
-		try{
-			for (auto& i : filename)
-			{
+		cin >> filename;
+		try{//quiz yaradanda adinda simvol olunmamalidi
+			for (auto& i : filename){
 				if ((i < 65 || i > 122) || (i > 90 && i < 97)) throw exception("You cannot use other characters in quiz name!!!");
 			}
 			filename += ".txt";
-			checkQuizName(filename);
+			checkQuizName(filename);//bu adda basqa quizin olub olmamasi
 		}
 		catch (const std::exception& ex){
 			system("cls");
@@ -52,21 +50,21 @@ void createQuiz() {
 	for (size_t i = 0; i < 5; i++){
 		cout << "Add your " << i + 1 << ". question: " << endl;
 		getline(cin >> ws, question);
-		question.erase(remove(question.begin(), question.end(), '?'), question.end());//admin suala sual simvolu qoyubsa silsin 
+		question.erase(remove(question.begin(), question.end(), '?'), question.end());//admin suala ? qoyubsa silsin 
 		cout << "Add four variant: " << endl;
 		for (size_t i = 0; i < 4; i++){
 			cout << i + 1 << ". ";
 			getline(cin >> ws, answer);
+			answer.erase(remove(answer.begin(), answer.end(), ','), answer.end());//cavabda , varsa silinsin
 			answers.push_back(answer);
 		}
-
 		cout << "Correct answer: " << endl;
 		getline(cin >> ws, correctAnswer);
+		correctAnswer.erase(remove(correctAnswer.begin(), correctAnswer.end(), ','), correctAnswer.end());
 		ofstream file(filename, ios::app);
 		if (file.is_open()) {
 			file << question << "?";
-			for (auto& i : answers)
-			{
+			for (auto& i : answers){
 				file << i << ", ";
 			}
 			file << correctAnswer << "\n";
@@ -101,15 +99,17 @@ void menu() {
 			}
 			catch (const std::exception& ex) {
 				cout << endl << ex.what() << endl;
+				this_thread::sleep_for(chrono::milliseconds(2000));
 				continue;
 			}
 			break;
 		}
 	}
-
 	User* user = logIn();
 	if (checkAdminOrPlayer(user->getUsername(), user->getPassword())) {//admindirse
 		while (true) {
+			this_thread::sleep_for(chrono::milliseconds(2000));
+			system("cls");
 			cin.ignore();
 			cout << "1. Start Quiz" << endl;
 			cout << "2. Leader Board" << endl;
@@ -124,6 +124,8 @@ void menu() {
 	}
 	else {//userdirse
 		while (true) {
+			this_thread::sleep_for(chrono::milliseconds(2000));
+			system("cls");
 			cin.ignore();
 			cout << "1. Start Quiz" << endl;
 			cout << "2. Leader Board" << endl;

@@ -1,2 +1,2 @@
-asmarasmar: quiz2.txt,,#
-siyajabbarova: quiz2.txt,quiz1.txt,,#
+siyajabbarova:quiz1.txt,quiz2.txt,,#
+asmar:,#

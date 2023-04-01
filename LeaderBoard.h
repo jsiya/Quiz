@@ -1,5 +1,4 @@
 #pragma once
-
 void addUserScore(User* user) {// uygun useri tapib scoreu artirir yeniden leaderBoarda yazir
 	vector<pair<string, int>> players;
 	string username, score;
@@ -25,7 +24,7 @@ void addUserScore(User* user) {// uygun useri tapib scoreu artirir yeniden leade
 
 void leaderBoard(User* user = nullptr) { //user* gelmirse cout edir, geldikde son oyunun score-nu elave etdikden sonra sort edir
 	string username, score;
-	if (user == nullptr) { //nullptrdirse ekrana cixardir
+	if (user == nullptr) {
 		ifstream file("LeaderBoard.txt");
 		int i = 0;
 		cout << "________Leader Board________" << endl;
@@ -40,8 +39,7 @@ void leaderBoard(User* user = nullptr) { //user* gelmirse cout edir, geldikde so
 		}
 	}
 	else {
-		addUserScore(user);
-
+		addUserScore(user); //score - u artirib sonra yazir
 		vector<pair<string, string>> players;
 		ifstream file("LeaderBoard.txt");
 		if (file.is_open()) {
@@ -51,12 +49,10 @@ void leaderBoard(User* user = nullptr) { //user* gelmirse cout edir, geldikde so
 			}
 			file.close();
 		}
-
 		sort(players.begin(), players.end(),
 			[](const pair<string, string>& u1, const pair<string, string>& u2) {
 				return stoi(u1.second) > stoi(u2.second);
 			});
-
 		ofstream file_("LeaderBoard.txt");
 		if (file_.is_open()) {
 			for (auto& i : players){
