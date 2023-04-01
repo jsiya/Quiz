@@ -16,11 +16,20 @@ void showScore(User* user) {
 	}
 }
 
+void checkQuizName(string quizname) {
+	string quizname_from_file;
+	ifstream file("quizNames.txt");
+	if (file.is_open()) {
+		while (getline(file, quizname_from_file)) {
+			if (quizname_from_file == quizname) throw exception("This quiz name already used!");
+		}
+	}
+}
+
 void createQuiz() {
 	string filename, question, answer, correctAnswer;
 	vector<string> answers;
-	while (true)
-	{
+	while (true){
 		system("cls");
 		cout << "Enter quiz name" << endl;
 		cin >> filename;//quiz yaradanda adinda simvol olunmamasini
@@ -29,6 +38,8 @@ void createQuiz() {
 			{
 				if ((i < 65 || i > 122) || (i > 90 && i < 97)) throw exception("You cannot use other characters in quiz name!!!");
 			}
+			filename += ".txt";
+			checkQuizName(filename);
 		}
 		catch (const std::exception& ex){
 			system("cls");
@@ -38,16 +49,12 @@ void createQuiz() {
 		}
 		break;
 	}
-
-	filename += ".txt";
-	for (size_t i = 0; i < 5; i++)
-	{
+	for (size_t i = 0; i < 5; i++){
 		cout << "Add your " << i + 1 << ". question: " << endl;
 		getline(cin >> ws, question);
 		question.erase(remove(question.begin(), question.end(), '?'), question.end());//admin suala sual simvolu qoyubsa silsin 
 		cout << "Add four variant: " << endl;
-		for (size_t i = 0; i < 4; i++)
-		{
+		for (size_t i = 0; i < 4; i++){
 			cout << i + 1 << ". ";
 			getline(cin >> ws, answer);
 			answers.push_back(answer);
@@ -67,13 +74,12 @@ void createQuiz() {
 		}
 		answers.clear();
 	}
-	ofstream file("quizNames.txt", ios::app);
-	if (file.is_open()) {
-		file << filename << "\n";
-		file.close();
+	ofstream file_("quizNames.txt", ios::app);
+	if (file_.is_open()) {
+		file_ << filename << "\n";
+		file_.close();
 	}
 }
-
 
 void menu() {
 	bool choice;
