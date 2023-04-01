@@ -23,7 +23,7 @@ string quizChoice(User* user) { //quiz secmek
 	{
 		ifstream quizes("quizNames.txt");
 		if (quizes.is_open()) {
-			while (getline(quizes, quizName, '.')){//quiz yaradanda adinda simvol olunmamasini elave ele!!!
+			while (getline(quizes, quizName, '.')){
 				cout << quizName << endl;
 				getline(quizes, quizName);
 			}
@@ -53,7 +53,7 @@ string quizChoice(User* user) { //quiz secmek
 	}
 }
 
-void addQuizToUser(User* user, string quiz) {//BUNU DUZELT!!!!!!!!
+void addQuizToUser(User* user, string quiz) {
 	//oynanan quizin userin oynadigi quizlere elave edilmesi
 	//quiz bitdikden sonra elave et
 	vector<string> quizes;
@@ -63,27 +63,33 @@ void addQuizToUser(User* user, string quiz) {//BUNU DUZELT!!!!!!!!
 	if (file.is_open()) {
 		while (getline(file, username, ':')) {
 			quizes.clear();
-			while (getline(file, quizName, ',') && quizName != "#") {
+			while (getline(file, quizName, ',')  && quizName != "") {
 				quizes.push_back(quizName);
 			}
+			getline(file, quizName);//bu sondaki \n kecsin deye
 			if (user->getUsername() == username) quizes.push_back(quiz);
 			playedQuizes.insert({ username, quizes });
-			//getline(file, username);
 		}
 		file.close();
 	}
 	//elaveden sonra yeniden file a yazilma
-	ofstream file_("playedQuizes.txt");
-	if (file_.is_open()) {
-		for (auto& i : playedQuizes)
-		{
-			file_ << i.first << ":";
-			for (auto& j : i.second)
+	
+	try{
+		ofstream file_("playedQuizes.txt");
+		if (file_.is_open()) {
+			for (auto& i : playedQuizes)
 			{
-				file_ << j << ",";
-			}file_ << "#,\n";
+				file_ << i.first << ":";
+				for (auto& j : i.second)
+				{
+					file_ << j << ",";
+				}file_ << ",#\n";
+			}
+			file_.close();
 		}
-		file_.close();
+	}
+	catch (const exception& ex) {
+		cout << ex.what() << endl;
 	}
 }
 
@@ -166,8 +172,9 @@ void startQuiz(User* user) {
 
 		}
 		else if (choice == "save" && variants[k] == " ") {//secilmemis save olsa
+			system("cls");
 			cout << "Choose variant!" << endl;
-			this_thread::sleep_for(chrono::milliseconds(200));
+			this_thread::sleep_for(chrono::milliseconds(2000));
 		}
 		else if (choice == "next" && i < questions.size()) {
 			i++;

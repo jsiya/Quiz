@@ -11,29 +11,61 @@ void showScore(User* user) {
 		}
 		file.close();
 	}
-	for (auto& i : players){
+	for (auto& i : players) {
 		if (i.first == user->getUsername()) cout << "Your Score is: " << i.second << endl;
 	}
 }
 
 void createQuiz() {
-	string filename, question, answers, correctAnswer;
-	cout << "Enter quiz name" << endl;
-	cin >> filename;
+	string filename, question, answer, correctAnswer;
+	vector<string> answers;
+	while (true)
+	{
+		system("cls");
+		cout << "Enter quiz name" << endl;
+		cin >> filename;//quiz yaradanda adinda simvol olunmamasini
+		try{
+			for (auto& i : filename)
+			{
+				if ((i < 65 || i > 122) || (i > 90 && i < 97)) throw exception("You cannot use other characters in quiz name!!!");
+			}
+		}
+		catch (const std::exception& ex){
+			system("cls");
+			cout << ex.what() << endl;
+			this_thread::sleep_for(chrono::milliseconds(2000));
+			continue;
+		}
+		break;
+	}
+
 	filename += ".txt";
 	for (size_t i = 0; i < 5; i++)
 	{
 		cout << "Add your " << i + 1 << ". question: " << endl;
 		getline(cin >> ws, question);
+		question.erase(remove(question.begin(), question.end(), '?'), question.end());//admin suala sual simvolu qoyubsa silsin 
 		cout << "Add four variant: " << endl;
-		getline(cin >> ws, answers);
+		for (size_t i = 0; i < 4; i++)
+		{
+			cout << i + 1 << ". ";
+			getline(cin >> ws, answer);
+			answers.push_back(answer);
+		}
+
 		cout << "Correct answer: " << endl;
-		cin >> correctAnswer;
+		getline(cin >> ws, correctAnswer);
 		ofstream file(filename, ios::app);
 		if (file.is_open()) {
-			file << question << " " << answers << " " << correctAnswer << "\n";
+			file << question << "?";
+			for (auto& i : answers)
+			{
+				file << i << ", ";
+			}
+			file << correctAnswer << "\n";
 			file.close();
 		}
+		answers.clear();
 	}
 	ofstream file("quizNames.txt", ios::app);
 	if (file.is_open()) {
@@ -45,7 +77,7 @@ void createQuiz() {
 
 void menu() {
 	bool choice;
-	while (true){
+	while (true) {
 		try {
 			choice = logOrSignChoice();
 		}
@@ -57,11 +89,11 @@ void menu() {
 	}
 	char choice_;
 	if (!choice) {
-		while (true){
-			try{
+		while (true) {
+			try {
 				signIn();
 			}
-			catch (const std::exception& ex){
+			catch (const std::exception& ex) {
 				cout << endl << ex.what() << endl;
 				continue;
 			}
@@ -71,7 +103,7 @@ void menu() {
 
 	User* user = logIn();
 	if (checkAdminOrPlayer(user->getUsername(), user->getPassword())) {//admindirse
-		while (true){
+		while (true) {
 			cin.ignore();
 			cout << "1. Start Quiz" << endl;
 			cout << "2. Leader Board" << endl;
@@ -85,7 +117,7 @@ void menu() {
 		}
 	}
 	else {//userdirse
-		while (true){
+		while (true) {
 			cin.ignore();
 			cout << "1. Start Quiz" << endl;
 			cout << "2. Leader Board" << endl;

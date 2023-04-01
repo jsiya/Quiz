@@ -21,5 +21,6 @@ using namespace std;
 int main()
 {
 	//admin kimi signUp yoxdur, yalniz logIn mumkundur!
+	//quizlere sual tapmamisam ona gore  filedaki suallar eynidis
 	menu();
 }

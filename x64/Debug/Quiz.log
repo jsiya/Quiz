@@ -1,5 +1,5 @@
 ﻿  Quiz.cpp
-C:\Users\Siya\Desktop\Step\Quiz\quizSection.h(118,16): warning C4244: 'initializing': conversion from '_Rep' to 'unsigned int', possible loss of data
+C:\Users\Siya\Desktop\Step\Quiz\quizSection.h(125,16): warning C4244: 'initializing': conversion from '_Rep' to 'unsigned int', possible loss of data
           with
           [
               _Rep=std::chrono::system_clock::rep
