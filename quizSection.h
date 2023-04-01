@@ -34,7 +34,7 @@ string quizChoice(User* user) { //quiz secmek
 			cin >> choice;
 			choice += ".txt";
 			try {
-				if (!quizCheck(user, choice)) throw exception("You already played this Game!");
+				if (!quizCheck(user, choice)) throw exception("You already played this Quiz!");
 			}
 			catch (const exception& ex) {
 				cout << ex.what() << endl;
@@ -144,19 +144,20 @@ void startQuiz(User* user) {
 		cout << "user input: ";
 		cin >> choice;
 		if (choice == "prev" && i != 0) i--;
-		else if (choice == "save" && variants[i] !=  " ") {//save olunmasi ucun evvelceden variant secilmis olmasi
-			string corVar = { correctVariant };//correctVariant char oldugu ucun
+		else if (choice == "save" && variants[i] !=  " ") {      //save olunmasi ucun evvelceden variant secilmis olmasi
+			string corVar = { correctVariant };       //correctVariant char oldugu ucun
 			if (variants[i] == corVar) score += 5;
-			questions.erase(questions.begin() + i);
+			questions.erase(questions.begin() + i);    //save olunan silinir
 			variants.erase(variants.begin() + i);
-			if (i == questions.size()) i--;//sonuncu sualda i=1 qaldigina gore indexi i = 0 olmalidi
+			if (i == questions.size()) i--;      //sonuncu sualda i=1 qaldigina gore indexi i = 0 olmalidi
 		}
 		else if (choice == "save" && variants[i] == " ") {//secilmemis save olsa
 			system("cls");
 			cout << "Choose variant!" << endl;
 			this_thread::sleep_for(chrono::milliseconds(2000));
 		}
-		else if (choice == "next" && i < questions.size()) i++;
+		else if (choice == "next" && i < questions.size() - 1) i++;
+
 		else if (choice == "a" || choice == "b" || choice == "c" || choice == "d" || choice == "A" || choice == "B" || choice == "C" || choice == "D") {
 			choice == "a" ? choice = "A" : choice;
 			choice == "b" ? choice = "B" : choice;
@@ -166,7 +167,7 @@ void startQuiz(User* user) {
 		}
 
 		if (questions.size() == 0) {
-			if (!checkAdminOrPlayer(user->getUsername(), user->getPassword())) {//ve playerdirse score artsin, adminde score yoxdur
+			if (!checkAdminOrPlayer(user->getUsername(), user->getPassword())) {    //ve playerdirse score artsin, adminde score yoxdur
 				user->setScore(score);
 				leaderBoard(user);
 				addQuizToUser(user, quizName);

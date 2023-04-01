@@ -1,4 +1,10 @@
+amin:quiz3.txt,quiz1.txt,,#
 asmar:quiz1.txt,quiz4.txt,adminsQuiz.txt,,#
 hesen:,#
+ibrahim:,#
+ismayil:,#
+kamal:,#
+merac:,#
 rustam:quiz3.txt,,#
 siyajabbarova:quiz1.txt,quiz2.txt,,#
+xayal:,#
